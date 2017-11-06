@@ -45,7 +45,7 @@ SERVIDOR_INFO="SERVIDOR: $HOST_TIPO -  $HOST_IP_PUBLICO (externo) - $SERVIDOR"
 
 function descriptografa {
     echo $CHAVE_CRIPTOGRAFIA > /root/.pass
-    ((yum clean all ; yum -y install epel-release  ; yum update ; yum install -y aespipe) || ( apt-get install -y aespipe))
+    ((yum clean all ; yum -y install epel-release  ; yum -y update ; yum install -y aespipe) || ( apt-get install -y aespipe))
 
     USUARIO=`echo "$USUARIO" | base64 -d | aespipe -d -P /root/.pass -C $AES_C`
     SENHA=`echo "$SENHA" | base64 -d | aespipe -d -P /root/.pass -C $AES_C`
@@ -205,9 +205,10 @@ function install_ansible {
           yum -y install ca-certificates nss
 
 
-          MENSAGEM=`/bin/date +"%m-%d-%y_%T"`" - HOST: $SERVIDOR INSTALANDO Epel "
-          send_msg $MENSAGEM
-          yum -y install epel-release
+          #EPEL FOI INSTALADO PARA A DECRIPTOGRAFIA
+          #MENSAGEM=`/bin/date +"%m-%d-%y_%T"`" - HOST: $SERVIDOR INSTALANDO Epel "
+          #send_msg $MENSAGEM
+          #yum -y install epel-release
 
 
           MENSAGEM=`/bin/date +"%m-%d-%y_%T"`" - HOST: $SERVIDOR INSTALANDO python-pip PyYAML python-jinja2 python-httplib2 python-keyczar python-paramiko git "

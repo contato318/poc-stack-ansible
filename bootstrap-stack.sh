@@ -42,7 +42,7 @@ CHAVE_CRIPTOGRAFIA=$2
 HOST_IP_PUBLICO=`curl 'https://api.ipify.org?format=txt'`
 SERVIDOR_INFO="SERVIDOR: $HOST_TIPO -  $HOST_IP_PUBLICO (externo) - $SERVIDOR"
 
-function descriptgrafa () {
+function descriptografa {
     USUARIO=`echo $USUARIO | openssl enc -d -a -aes256 -pass pass:$CHAVE_CRIPTOGRAFIA`
     SENHA=`echo $SENHA | openssl enc -d -a -aes256 -pass pass:$CHAVE_CRIPTOGRAFIA`
     SENHA_SALT=`echo $SENHA_SALT | openssl enc -d -a -aes256 -pass pass:$CHAVE_CRIPTOGRAFIA`
@@ -301,7 +301,7 @@ function install_ansible {
 }
 
 function main {
-    descriptgrafa >> $LOG_DEBUG 2>&1
+    descriptografa >> $LOG_DEBUG 2>&1
     inicio >> $LOG_DEBUG 2>&1
     verifica_dados_entrada >> $LOG_DEBUG 2>&1
     valida_usuario >> $LOG_DEBUG 2>&1

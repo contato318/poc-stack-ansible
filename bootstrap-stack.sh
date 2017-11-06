@@ -5,43 +5,47 @@ LOG=$DIRETORIO_RAIZ"/stack-`hostname -f`-`/bin/date +"%m-%d-%y_%T"`.log"
 LOG_DEBUG=$DIRETORIO_RAIZ"/stack-`hostname -f`-`/bin/date +"%m-%d-%y_%T"`-DEBUG.log"
 SERVIDOR=`hostname -f`
 
+############################################
 ##### CONF DO USUARIO DE ACESSO REMOTO #####
+############################################
+        USUARIO="U2FsdGVkX189sq+Glrwun1Sl2cd59iK2bvUkfDDmzxg="
 
-USUARIO="U2FsdGVkX189sq+Glrwun1Sl2cd59iK2bvUkfDDmzxg="
+        USUARIO="oD1r5ztn7atmHY+dejunTQ=="
 
-USUARIO="oD1r5ztn7atmHY+dejunTQ=="
+        SENHA="y0RS+fvJxWZUS4qeMLS8JQ=="
 
-SENHA="y0RS+fvJxWZUS4qeMLS8JQ=="
+        SENHA_SALT="sHiXUHW5tur54rORZbDceg=="
 
-SENHA_SALT="sHiXUHW5tur54rORZbDceg=="
+        CHAVE_PRIVADA="OfknmaL7PIlNHkrn6Zd/wOfIQKaas3MBNMwhTp2go9oSti+oIiZ6f2/fZ8yiOIpO/aFRzR2r1Z6U
+        mtV+ZcnzKg=="
 
-CHAVE_PRIVADA="OfknmaL7PIlNHkrn6Zd/wOfIQKaas3MBNMwhTp2go9oSti+oIiZ6f2/fZ8yiOIpO/aFRzR2r1Z6U
-mtV+ZcnzKg=="
-
-CHAVE_PUBLICA="OfknmaL7PIlNHkrn6Zd/wOfIQKaas3MBNMwhTp2go9oSti+oIiZ6f2/fZ8yiOIpOrGhCLDPqWuiV
-47NQOVeGfA=="
-
+        CHAVE_PUBLICA="OfknmaL7PIlNHkrn6Zd/wOfIQKaas3MBNMwhTp2go9oSti+oIiZ6f2/fZ8yiOIpOrGhCLDPqWuiV
+        47NQOVeGfA=="
+        
+#############################
 ##### CONF DO TELEGRAM ######
-MENSAGEM="Segundo teste"
+#############################
+        MENSAGEM="Segundo teste"
 
-CHAT_ID="EwPEo/yNNdadRmvDHhg0Iw=="
+        CHAT_ID="EwPEo/yNNdadRmvDHhg0Iw=="
 
-URL_SEND_TELEGRAM="/yMGX1n709P7XgBg/9cXBWMmE0c8TsJ81lTfzdxyK6CZwGl+vr3ifGeWp6tNEiE5VmJRtilm9oWO
-GfMCjLxyQtCnLnLUTPuX3kBQWjqb9KCArucp7X9Wm/kJQOe2JxR/"
+        URL_SEND_TELEGRAM="/yMGX1n709P7XgBg/9cXBWMmE0c8TsJ81lTfzdxyK6CZwGl+vr3ifGeWp6tNEiE5VmJRtilm9oWO
+        GfMCjLxyQtCnLnLUTPuX3kBQWjqb9KCArucp7X9Wm/kJQOe2JxR/"
 
-URL_DOCUMENT_TELEGRAM="/yMGX1n709P7XgBg/9cXBWMmE0c8TsJ81lTfzdxyK6CZwGl+vr3ifGeWp6tNEiE5VmJRtilm9oWO
-GfMCjLxyQnHT2zqKWVqD1Dji87VAkH1tIkq5lvXLK/SZw3jjU3ji"
-
-
-TELEGRAM_DOCUMENTO=""
+        URL_DOCUMENT_TELEGRAM="/yMGX1n709P7XgBg/9cXBWMmE0c8TsJ81lTfzdxyK6CZwGl+vr3ifGeWp6tNEiE5VmJRtilm9oWO
+        GfMCjLxyQnHT2zqKWVqD1Dji87VAkH1tIkq5lvXLK/SZw3jjU3ji"
 
 
+        TELEGRAM_DOCUMENTO=""
+
+################################
 #### PEGANDO OS PARAMETROS #####
-HOST_TIPO=$1
-CHAVE_CRIPTOGRAFIA=$2
-AES_C=$3
-HOST_IP_PUBLICO=`curl 'https://api.ipify.org?format=txt'`
-SERVIDOR_INFO="SERVIDOR: $HOST_TIPO -  $HOST_IP_PUBLICO (externo) - $SERVIDOR"
+################################
+        HOST_TIPO=$1
+        CHAVE_CRIPTOGRAFIA=$2
+        AES_C=$3
+        HOST_IP_PUBLICO=`curl 'https://api.ipify.org?format=txt'`
+        SERVIDOR_INFO="SERVIDOR: $HOST_TIPO -  $HOST_IP_PUBLICO (externo) - $SERVIDOR"
 
 function descriptografa {
     echo $CHAVE_CRIPTOGRAFIA > /root/.pass

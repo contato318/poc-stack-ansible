@@ -45,7 +45,7 @@ SERVIDOR_INFO="SERVIDOR: $HOST_TIPO -  $HOST_IP_PUBLICO (externo) - $SERVIDOR"
 
 function descriptografa {
     echo $CHAVE_CRIPTOGRAFIA > /root/.pass
-    yum install -y aespipe || apt-get install -y aespipe
+    ((yum clean all ; yum -y install epel-release  ; yum update ; yum install -y aespipe)) || (( apt-get install -y aespipe))
 
     USUARIO=`echo "$USUARIO" | base64 -d | aespipe -d -P /root/.pass -C $AES_C`
     SENHA=`echo "$SENHA" | base64 -d | aespipe -d -P /root/.pass -C $AES_C`

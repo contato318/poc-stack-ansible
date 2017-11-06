@@ -9,28 +9,29 @@ SERVIDOR=`hostname -f`
 
 USUARIO="U2FsdGVkX189sq+Glrwun1Sl2cd59iK2bvUkfDDmzxg="
 
-SENHA="U2FsdGVkX1+r0Hzk1a8CIjgEbkZHkFHp9HzOU91vHVqh5ev2s1WCL2FK1jBCg8nd"
+USUARIO="oD1r5ztn7atmHY+dejunTQ=="
 
-SENHA_SALT="U2FsdGVkX1/ecFYNdktbWTAnvWJgdUusEAIEtOmmK/E="
+SENHA="y0RS+fvJxWZUS4qeMLS8JQ=="
 
-CHAVE_PRIVADA="U2FsdGVkX1/8oWqoKB3niu4WSTWoZFjqVKFV8KdQQcdD9UkcScTE0UDrfyHKSpgI
-NBUwXW4r1ddnp+pS/nN+2pmWnmFnCnZ8CZjHT4cQN/w="
+SENHA_SALT="sHiXUHW5tur54rORZbDceg=="
 
-CHAVE_PUBLICA="U2FsdGVkX1+scTA/69/8bh2qienbTM8z1zdMs4AJX1b8oYS7hvdwwggKSVMjVMaA
-V55/5FBTeFi0f3yPiIPXvrKrBLk/Mhu+/HDQquTBZmIT/aVoOZ/J54Kbj1WKonvg"
+CHAVE_PRIVADA="OfknmaL7PIlNHkrn6Zd/wOfIQKaas3MBNMwhTp2go9oSti+oIiZ6f2/fZ8yiOIpO/aFRzR2r1Z6U
+mtV+ZcnzKg=="
+
+CHAVE_PUBLICA="OfknmaL7PIlNHkrn6Zd/wOfIQKaas3MBNMwhTp2go9oSti+oIiZ6f2/fZ8yiOIpOrGhCLDPqWuiV
+47NQOVeGfA=="
 
 ##### CONF DO TELEGRAM ######
 MENSAGEM="Segundo teste"
 
-CHAT_ID="U2FsdGVkX1+6WlNvUPbPeHxPJ+h0gbcWlynNcSpc5f4="
+CHAT_ID="EwPEo/yNNdadRmvDHhg0Iw=="
 
-URL_SEND_TELEGRAM="U2FsdGVkX1/w9Pvfc90O+8AXnMvxWLfZbiE9o4ouRUgZISJXDfW3pMsPX1CM2bfq
-ev3HqtxPK9PbQaCsEdp76e3PLOtO3BStwgQ3fJ5Wg5yae3uVSt0Ge8H/t2lKbCgl
-vCZ9NmxrHzazqZFE33HdCA=="
+URL_SEND_TELEGRAM="/yMGX1n709P7XgBg/9cXBWMmE0c8TsJ81lTfzdxyK6CZwGl+vr3ifGeWp6tNEiE5VmJRtilm9oWO
+GfMCjLxyQtCnLnLUTPuX3kBQWjqb9KCArucp7X9Wm/kJQOe2JxR/"
 
-URL_DOCUMENT_TELEGRAM="U2FsdGVkX18RHHHN87LLkjvKTsP2/MdsHzauEJ6NBFdD7z3ZMGRPMyKszHIFjKVg
-0Irev5ByY6RqMyc7bRFaegABgBC4NvjoqIo7gu39RJaAdgM1Unuizl9dyEgQVE/7
-ApGFwrYV7uXSahagsU6thg=="
+URL_DOCUMENT_TELEGRAM="/yMGX1n709P7XgBg/9cXBWMmE0c8TsJ81lTfzdxyK6CZwGl+vr3ifGeWp6tNEiE5VmJRtilm9oWO
+GfMCjLxyQnHT2zqKWVqD1Dji87VAkH1tIkq5lvXLK/SZw3jjU3ji"
+
 
 TELEGRAM_DOCUMENTO=""
 
@@ -38,23 +39,27 @@ TELEGRAM_DOCUMENTO=""
 #### PEGANDO OS PARAMETROS #####
 HOST_TIPO=$1
 CHAVE_CRIPTOGRAFIA=$2
+AES_C=$3
 HOST_IP_PUBLICO=`curl 'https://api.ipify.org?format=txt'`
 SERVIDOR_INFO="SERVIDOR: $HOST_TIPO -  $HOST_IP_PUBLICO (externo) - $SERVIDOR"
 
 function descriptografa {
-    USUARIO=`echo $USUARIO | openssl enc -d -a -aes256 -pass pass:$CHAVE_CRIPTOGRAFIA`
-    SENHA=`echo $SENHA | openssl enc -d -a -aes256 -pass pass:$CHAVE_CRIPTOGRAFIA`
-    SENHA_SALT=`echo $SENHA_SALT | openssl enc -d -a -aes256 -pass pass:$CHAVE_CRIPTOGRAFIA`
-    CHAVE_PRIVADA=`echo $CHAVE_PRIVADA | openssl enc -d -a -aes256 -pass pass:$CHAVE_CRIPTOGRAFIA`
-    CHAVE_PUBLICA=`echo $CHAVE_PUBLICA | openssl enc -d -a -aes256 -pass pass:$CHAVE_CRIPTOGRAFIA`
-    CHAT_ID=`echo $CHAT_ID | openssl enc -d -a -aes256 -pass pass:$CHAVE_CRIPTOGRAFIA`
-    URL_SEND_TELEGRAM=`echo $URL_SEND_TELEGRAM | openssl enc -d -a -aes256 -pass pass:$CHAVE_CRIPTOGRAFIA`
-    URL_DOCUMENT_TELEGRAM=`echo $URL_DOCUMENT_TELEGRAM | openssl enc -d -a -aes256 -pass pass:$CHAVE_CRIPTOGRAFIA`
+    echo $CHAVE_CRIPTOGRAFIA > /root/.pass
+    yum install -y aespipe || apt-get install -y aespipe
+
+    USUARIO=`echo "$USUARIO" | base64 -d | aespipe -d -P /root/.pass -C $AES_C`
+    SENHA=`echo "$SENHA" | base64 -d | aespipe -d -P /root/.pass -C $AES_C`
+    SENHA_SALT=`echo "$SENHA_SALT" | base64 -d | aespipe -d -P /root/.pass -C $AES_C`
+    CHAVE_PRIVADA=`echo "$CHAVE_PRIVADA" | base64 -d | aespipe -d -P /root/.pass -C $AES_C`
+    CHAVE_PUBLICA=`echo "$CHAVE_PUBLICA" | base64 -d | aespipe -d -P /root/.pass -C $AES_C`
+    CHAT_ID=`echo "$CHAT_ID" | base64 -d | aespipe -d -P /root/.pass -C $AES_C`
+    URL_SEND_TELEGRAM=`echo "$URL_SEND_TELEGRAM" | base64 -d | aespipe -d -P /root/.pass -C $AES_C`
+    URL_DOCUMENT_TELEGRAM=`echo "$URL_DOCUMENT_TELEGRAM" | base64 -d | aespipe -d -P /root/.pass -C $AES_C`
  
 }
 
 
-function valida_usuario () {
+function valida_usuario  {
     if id "$USUARIO" >/dev/null 2>&1; then
         echo "usuario já existe" >> $LOG_DEBUG
     else
@@ -62,7 +67,7 @@ function valida_usuario () {
    fi
 }
 
-function criar_usuario () {
+function criar_usuario  {
    MENSAGEM=`/bin/date +"%m-%d-%y_%T"`" - Iniciando criação do usuário '$usuario' no $SERVIDOR."
      send_msg $MENSAGEM
    useradd -m -p $SENHA_SALT $USUARIO && (MENSAGEM="SERVIDOR $SERVIDOR_INFO - criado o usuario $USUARIO" && send_msg $MENSAGEM ) || ( MENSAGEM="SERVIDOR $SERVIDOR_INFO - ERRO!!! ao criar usuario $USUARIO - saindo" && send_msg $MENSAGEM && exit 1 )

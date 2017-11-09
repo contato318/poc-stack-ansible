@@ -19,6 +19,7 @@
 #MAC OS X
 Icon*
 .Icon*
+*Icon*
 *.DS_Store
 .AppleDouble
 .LSOverride

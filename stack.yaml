@@ -1,0 +1,41 @@
+- hosts: localhost
+  connection: local
+  gather_facts: yes
+  vars:
+    my_name: a_b_c
+
+  tasks:
+    - debug: 
+         msg={{ my_name|replace('_', '-') }}
+      notify:
+         - Telegram
+
+
+- hosts: all
+  connection: local
+  gather_facts: yes
+  vars:
+    my_name: TODOS
+
+  tasks:
+    - debug: msg={{ my_name|replace('_', '-') }}
+
+
+- hosts: db
+  connection: local
+  gather_facts: yes
+  vars:
+    my_name: Aplicando_no_db
+
+  tasks:
+    - debug: msg={{ my_name|replace('_', '-') }}
+
+
+- hosts: app
+  connection: local
+  gather_facts: Aplicando_no_app
+  vars:
+    my_name: a_b_c
+
+  tasks:
+    - debug: msg={{ my_name|replace('_', '-') }}

@@ -1,0 +1,9 @@
+[local]
+localhost
+
+[app]
+localhost
+
+#[db]
+#localhost
+

@@ -1,0 +1,22 @@
+---
+# defaults file for wordpress
+wordpress_database_host: localhost
+wordpress_database: wordpress
+wordpress_user: wordpress
+wordpress_password: wordpress
+
+wordpress_plugins: []
+wordpress_themes: []
+
+# EXEMPLO DE USO DE PLUGINS
+#wordpress_plugins:
+#  - name: wp-super-cache
+#    version: 1.4.5
+#  - name: jetpack
+#    version: 3.7.2
+#  - name: lipsum  # Plugin without a version
+
+#EXEMPLO DE USO DE TEMAS
+#wordpress_themes:
+#  - name: xcel
+#    version: 1.0.9

@@ -1,0 +1,10 @@
+---
+# tasks file for wordpress
+
+- include_vars: "{{ ansible_distribution }}.yml"
+  tags:
+    - wordpress
+- include: install.yml
+- include: config.yml
+- include: plugins.yml
+- include: themes.yml

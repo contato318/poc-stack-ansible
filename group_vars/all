@@ -1,0 +1,3 @@
+---
+#  Inclua aqui as variaveis que serão aplicadas em todos os hosts - grupo [all]
+# IMPORTANTE: todas as variáveis devem estar criptografadas

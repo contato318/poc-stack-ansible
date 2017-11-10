@@ -1,0 +1,10 @@
+---
+
+- hosts: all
+  connection: local
+  gather_facts: yes
+  vars:
+    my_name: TODOS
+
+  tasks:
+    - debug: msg={{ my_name|replace('_', '-') }}

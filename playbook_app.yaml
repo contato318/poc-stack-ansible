@@ -1,0 +1,8 @@
+- hosts: app
+  connection: local
+  gather_facts: yes
+  vars:
+    my_name: a_b_c
+
+  tasks:
+    - debug: msg={{ my_name|replace('_', '-') }}

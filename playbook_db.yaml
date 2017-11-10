@@ -1,0 +1,8 @@
+- hosts: db
+  connection: local
+  gather_facts: yes
+  vars:
+    my_name: Aplicando_no_db
+
+  tasks:
+    - debug: msg={{ my_name|replace('_', '-') }}

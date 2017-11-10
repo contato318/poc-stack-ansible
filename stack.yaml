@@ -1,41 +1,19 @@
-- hosts: localhost
-  connection: local
-  gather_facts: yes
-  vars:
-    my_name: a_b_c
-
-  tasks:
-    - debug: 
-         msg={{ my_name|replace('_', '-') }}
-      notify:
-         - Telegram
+---
+# ESTE É O PONTO DE ENTRADA DO ANSIBLE PULL
+# ELE CHAMA OS DEMAIS PLAYBOOKS
 
 
-- hosts: all
-  connection: local
-  gather_facts: yes
-  vars:
-    my_name: TODOS
+############################################################################
+# CHAMANDO O QUE DEVE SER APLICADO EM TODOS OS HOSTS (common / compliance) #
+############################################################################
+import_playbook: playbook_all.yaml
 
-  tasks:
-    - debug: msg={{ my_name|replace('_', '-') }}
+###############################################################
+# IMPORTANDO O PLAYBOOK QUE CUIDA DA CAMADA DO BANCO DE DADOS #
+###############################################################
+import_playbook: playbook_db.yaml
 
-
-- hosts: db
-  connection: local
-  gather_facts: yes
-  vars:
-    my_name: Aplicando_no_db
-
-  tasks:
-    - debug: msg={{ my_name|replace('_', '-') }}
-
-
-- hosts: app
-  connection: local
-  gather_facts: Aplicando_no_app
-  vars:
-    my_name: a_b_c
-
-  tasks:
-    - debug: msg={{ my_name|replace('_', '-') }}
+######################################################################
+# IMPORTANDO O PLAYBOOK QUE CUIDA DA CAMADA DE APLICAÇAO (wordpress) #
+######################################################################
+import_playbook: playbook_app.yaml

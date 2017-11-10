@@ -11,6 +11,21 @@ for entry in "$DIR"/"$CONF" ; do
          fi
 done
 
+if [ -z "${GRUPO_HOST}" ]; then
+     echo "Não existe a variavel  GRUPO_HOST "
+     exit
+fi
+if [ -z "${ARQUIVO_CHAVE_VAULT}" ]; then
+     echo "Não existe a variavel  ARQUIVO_CHAVE_VAULT"
+     exit
+fi
+if [ -z "${ENDERECO_GIT}" ]; then
+     echo "Não existe a variavel ENDERECO_GIT"
+     exit
+fi
+
+
+
 
 function msg_ambiente {
     /bin/echo "-" >> $CRON_LOG_DEBUG

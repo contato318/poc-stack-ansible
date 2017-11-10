@@ -1,24 +1,61 @@
 #!/bin/bash
 
-source cron.conf
+CONF="bootstrap-cron.conf"
+DIR="${BASH_SOURCE%/*}"
 
-DIRETORIO_RAIZ="/opt"
-DIRETORIO_REPOSITORIO="poc-stack-ansible"
-DIRETORIO_LOG="$DIRETORIO_RAIZ/$DIRETORIO_REPOSITORIO/log"
-SERVIDOR=`hostname -f`
-LOG="$DIRETORIO_LOG/stack-`hostname -f`-`/bin/date +"%m-%d-%y_%T"`.log"
-LOG_DEBUG="$DIRETORIO_LOG/stack-`hostname -f`-`/bin/date +"%m-%d-%y_%T"`-DEBUG.log"
+if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi
 
-
-echo $DIRETORIO_RAIZ
-echo $DIRETORIO_REPOSITORIO
-echo $DIRETORIO_LOG
-
-echo $SERVIDOR
-
-echo $LOG
-echo $LOG_DEBUG
+for entry in "$DIR"/"$CONF" ; do
+          if [ -f "$entry" ];then
+             source "$entry"
+         fi
+done
 
 
+function msg_ambiente {
+    /bin/echo "-" >> $CRON_LOG_DEBUG
+    /bin/echo "-" >> $CRON_LOG
+
+    /bin/echo "iniciando" >>$CRON_LOG
+    /bin/echo "AMBIENTE:" >> $CRON_LOG
+    /bin/echo $DIRETORIO_BOOTSTRAP >> $CRON_LOG
+    /bin/echo $CRON_BOOTSTRAP >> $CRON_LOG
+    /bin/echo $CRON_BOOTSTRAP_CONF >> $CRON_LOG
+    /bin/echo $DIRETORIO_REPOS >> $CRON_LOG
+    /bin/echo $CRON >> $CRON_LOG
+    /bin/echo $CRON_CONF >> $CRON_LOG
+    /bin/echo $GRUPO_HOST >> $CRON_LOG
+    /bin/echo $ENDERECO_GIT >> $CRON_LOG
+    /bin/echo $ARQUIVO_CHAVE_VAULT >> $CRON_LOG
+    /bin/echo $CAMINHO_PLAYBOOK >> $CRON_LOG
 
 
+}
+
+
+
+function inicia {
+   msg_ambiente
+}
+
+
+function executa_playbook {
+   local SAIDA=`/bin/ansible-pull -d $DIRETORIO_REPOS  -U $ENDERECO_GIT $CAMINHO_PLAYBOOK`
+   echo "----- INICIO OUTPUT PLAYBOOK ------" >> $CRON_LOG
+   echo $SAIDA >> $CRON_LOG
+   echo "----- FIM OUTPUT PLAYBOOK ------" >> $CRON_LOG
+
+}
+
+function atualiza_cron {
+   /bin/mv -f $CRON $CRON_BOOTSTRAP
+}
+
+function main {
+    inicia
+    executa_playbook
+    atualiza_cron
+
+}
+
+main

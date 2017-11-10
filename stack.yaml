@@ -2,18 +2,19 @@
 # ESTE É O PONTO DE ENTRADA DO ANSIBLE PULL
 # ELE CHAMA OS DEMAIS PLAYBOOKS
 
+# Obs.: Projeto para Ansible 2.4 ou superior
 
 ############################################################################
 # CHAMANDO O QUE DEVE SER APLICADO EM TODOS OS HOSTS (common / compliance) #
 ############################################################################
-import_playbook: playbook_all.yaml
+- import_playbook: playbook_all.yaml
 
 ###############################################################
 # IMPORTANDO O PLAYBOOK QUE CUIDA DA CAMADA DO BANCO DE DADOS #
 ###############################################################
-import_playbook: playbook_db.yaml
+- import_playbook: playbook_db.yaml
 
 ######################################################################
 # IMPORTANDO O PLAYBOOK QUE CUIDA DA CAMADA DE APLICAÇAO (wordpress) #
 ######################################################################
-import_playbook: playbook_app.yaml
+- import_playbook: playbook_app.yaml

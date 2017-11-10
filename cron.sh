@@ -63,7 +63,7 @@ function executa_playbook {
 }
 
 function atualiza_cron {
-   /bin/mv -f $CRON $CRON_BOOTSTRAP
+   /bin/cp -f $CRON $CRON_BOOTSTRAP
 }
 
 function main {

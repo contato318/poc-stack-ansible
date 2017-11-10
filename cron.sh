@@ -40,7 +40,7 @@ function inicia {
 
 
 function executa_playbook {
-   local SAIDA=`/bin/ansible-pull -d $DIRETORIO_REPOS  -U $ENDERECO_GIT $CAMINHO_PLAYBOOK`
+   local SAIDA=`/bin/ansible-pull -d $DIRETORIO_REPOS  -U $ENDERECO_GIT $CAMINHO_PLAYBOOK` --vault-password-file $ARQUIVO_CHAVE_VAULT
    echo "----- INICIO OUTPUT PLAYBOOK ------" >> $CRON_LOG
    echo $SAIDA >> $CRON_LOG
    echo "----- FIM OUTPUT PLAYBOOK ------" >> $CRON_LOG

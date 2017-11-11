@@ -62,7 +62,7 @@ function limpa_log {
      #.     2) Se existir mais de 7 dias de logs
      echo "-----"`/bin/date +"%m-%d-%y_%T"` - " INICIO limpeza log ------" >> $CRON_LOG
      
-     /bin/find DIRETORIO_LOG_BOOTSTRAP -mindepth 1 -mmin +30 -delete
+     /bin/find $DIRETORIO_LOG_BOOTSTRAP -mindepth 1 -mmin +30 -delete
      
      echo "-----"`/bin/date +"%m-%d-%y_%T"` - " FIM limpeza log ------" >> $CRON_LO 
 }

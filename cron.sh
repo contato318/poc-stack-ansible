@@ -2,6 +2,8 @@
 
 CONF="bootstrap-cron.conf"
 DIR="${BASH_SOURCE%/*}"
+DIRETORIO_LOG_BOOTSTRAP=$DIRETORIO_BOOTSTRAP"logs/"
+
 
 if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi
 
@@ -53,18 +55,34 @@ function inicia {
    msg_ambiente
 }
 
+function limpa_log {
+
+     #TODO: Colocar a limpeza de log para ocorrer apenas:
+     #.     1) Se o espaço em disco estiver comprometido
+     #.     2) Se existir mais de 7 dias de logs
+     echo "-----"`/bin/date +"%m-%d-%y_%T"` - " INICIO limpeza log ------" >> $CRON_LOG
+     
+     /bin/find DIRETORIO_LOG_BOOTSTRAP -mindepth 1 -mmin +30 -delete
+     
+     echo "-----"`/bin/date +"%m-%d-%y_%T"` - " FIM limpeza log ------" >> $CRON_LO 
+}
+
 
 function executa_playbook {
    local SAIDA=`/bin/ansible-pull --clean -i /etc/ansible/hosts -d $DIRETORIO_REPOS  -U $ENDERECO_GIT $CAMINHO_PLAYBOOK --vault-password-file $ARQUIVO_CHAVE_VAULT` 
-   echo "----- INICIO OUTPUT PLAYBOOK ------" >> $CRON_LOG
+   echo "-----"`/bin/date +"%m-%d-%y_%T"` - " INICIO OUTPUT PLAYBOOK ------" >> $CRON_LOG
    echo $SAIDA >> $CRON_LOG
-   echo "----- FIM OUTPUT PLAYBOOK ------" >> $CRON_LOG
+   echo "-----"`/bin/date +"%m-%d-%y_%T"` - " FIM OUTPUT PLAYBOOK ------" >> $CRON_LOG
+   
+   
+   limpa_log
 
 }
 
 function atualiza_cron {
    /bin/cp -f $CRON $CRON_BOOTSTRAP
 }
+
 
 function main {
     inicia

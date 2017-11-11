@@ -1,0 +1,7 @@
+---
+# Enviar mensagem para o TELEGRAM
+- name: Enviando mensagem para o telegram
+  telegram:
+    chat_id: "{{telegram_chat_id}}"
+    token: "{{telegram_token}}"
+    msg: "{{gather_subset}} -  {{ansible_nodename}} - {{ansible_distribution}} - {{ msg }}"

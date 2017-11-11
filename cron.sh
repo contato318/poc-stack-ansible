@@ -64,7 +64,7 @@ function limpa_log {
      
      /bin/find $DIRETORIO_LOG_BOOTSTRAP -mindepth 1 -mmin +30 -delete
      
-     echo "-----"`/bin/date +"%m-%d-%y_%T"` - " FIM limpeza log ------" >> $CRON_LO 
+     echo "-----"`/bin/date +"%m-%d-%y_%T"` - " FIM limpeza log ------" >> $CRON_LOG
 }
 
 

@@ -69,8 +69,8 @@ function limpa_log {
 
 
 function executa_playbook {
-   local SAIDA=`/bin/ansible-pull --clean -i /etc/ansible/hosts -d $DIRETORIO_REPOS  -U $ENDERECO_GIT $CAMINHO_PLAYBOOK --vault-password-file $ARQUIVO_CHAVE_VAULT` 
    echo "-----"`/bin/date +"%m-%d-%y_%T"` - " INICIO OUTPUT PLAYBOOK ------" >> $CRON_LOG
+   local SAIDA=`/bin/ansible-pull --clean -i /etc/ansible/hosts -d $DIRETORIO_REPOS  -U $ENDERECO_GIT $CAMINHO_PLAYBOOK --vault-password-file $ARQUIVO_CHAVE_VAULT` 
    echo $SAIDA >> $CRON_LOG
    echo "-----"`/bin/date +"%m-%d-%y_%T"` - " FIM OUTPUT PLAYBOOK ------" >> $CRON_LOG
    

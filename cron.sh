@@ -1,5 +1,5 @@
 #!/bin/bash
-
+#VERSAO 1.0
 CONF="bootstrap-cron.conf"
 DIR="${BASH_SOURCE%/*}"
 DIRETORIO_LOG_BOOTSTRAP=$DIRETORIO_BOOTSTRAP"logs/"

@@ -61,20 +61,20 @@ function limpa_log {
      #.     1) Se o espaço em disco estiver comprometido
      #.     2) Se existir mais de 7 dias de logs
      echo "-----"`/bin/date +"%m-%d-%y_%T"` - " INICIO limpeza log ------" >> $CRON_LOG
-     
+
      /bin/find $DIRETORIO_LOG_BOOTSTRAP -mindepth 1 -mmin +30 -delete
-     
+
      echo "-----"`/bin/date +"%m-%d-%y_%T"` - " FIM limpeza log ------" >> $CRON_LOG
 }
 
 
 function executa_playbook {
    echo "-----"`/bin/date +"%m-%d-%y_%T"` - " INICIO OUTPUT PLAYBOOK ------" >> $CRON_LOG
-   local SAIDA=`/bin/ansible-pull --clean -i /etc/ansible/hosts -d $DIRETORIO_REPOS  -U $ENDERECO_GIT $CAMINHO_PLAYBOOK --vault-password-file $ARQUIVO_CHAVE_VAULT` 
+   local SAIDA=`/bin/ansible-pull --clean -i /etc/ansible/hosts -d $DIRETORIO_REPOS  -U $ENDERECO_GIT $CAMINHO_PLAYBOOK --vault-password-file=$ARQUIVO_CHAVE_VAULT` 
    echo $SAIDA >> $CRON_LOG
    echo "-----"`/bin/date +"%m-%d-%y_%T"` - " FIM OUTPUT PLAYBOOK ------" >> $CRON_LOG
-   
-   
+
+
    limpa_log
 
 }

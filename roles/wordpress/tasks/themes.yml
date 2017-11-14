@@ -52,3 +52,12 @@
   with_items: "{{ wordpress_themes }}"
   when: item.version is not defined
   tags: wordpress
+
+- name: Create link symbolic
+  file:
+    src: "{{ wordpress_directory }}"
+    dest: /var/www/html/wordpress
+    force: yes
+    state: link
+  tags: wordpress
+  notify: restart httpd

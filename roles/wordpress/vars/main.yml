@@ -6,13 +6,14 @@ wordpress_repository:
 
 wordpress_packages:
   - php-mysql
+  - libsemanage-python
   - wordpress
   - unzip
 
 wordpress_directory: '/usr/share/wordpress'
 
 wordpress_httpd_configuration: '/etc/httpd/conf.d/wordpress.conf'
-wordpress_configuration: '/etc/wordpress/wp-config.php'
+wordpress_configuration: '/usr/share/wordpress/wp-config.php'
 
 wordpress_plugin_directory: "{{ wordpress_directory }}/wp-content/plugins"
 wordpress_theme_directory: "{{ wordpress_directory }}/wp-content/themes"

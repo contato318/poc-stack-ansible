@@ -4,6 +4,5 @@ localhost
 [app]
 localhost
 
-[db]
+[bd]
 localhost
-

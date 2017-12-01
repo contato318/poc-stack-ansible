@@ -1,0 +1,16 @@
+# Mariadb network settings
+#
+# {{ ansible_managed }}
+
+[mysqld]
+bind_address={{ mariadb_bind_address }}
+server-id=1
+log-bin=mysql-bin
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+symbolic-links=0
+
+[mysqld_safe]
+log-error=/var/log/mariadb/mariadb.log
+pid-file=/var/run/mariadb/mariadb.pid
+!includedir /etc/my.cnf.d

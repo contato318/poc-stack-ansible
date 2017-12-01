@@ -1,0 +1,12 @@
+- name: Create the users replication
+  mysql_user:
+    name: "{{ item.name }}"
+    password: "{{ item.password }}"
+    host: "{{ item.host|default('localhost') }}"
+    priv: "{{ item.priv }}"
+    #login_user: root
+    #login_password: "{{ mariadb_root_password }}"
+    state: present
+  with_items: "{{ mariadb_users_replication }}"
+  when: ansible_nodename == "bd"
+  tags: mariadb

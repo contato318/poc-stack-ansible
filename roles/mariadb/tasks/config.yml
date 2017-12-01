@@ -1,19 +1,33 @@
 # roles/mariadb/tasks/config.yml
 ---
 
-- name: Install server config file
+#- name: Install server config file
+#  template:
+#    src: etc_my.cnf.d_server.cnf.j2
+#    dest: "{{ mariadb_config_server }}"
+#  notify: restart mariadb
+#  tags: mariadb
+
+- name: Install network config file bd one
   template:
-    src: etc_my.cnf.d_server.cnf.j2
-    dest: "{{ mariadb_config_server }}"
-  notify: restart mariadb
+    src: etc_bd_my.cnf.d_network.cnf.j2
+    dest: "{{ mariadb_config_network }}"
+    mode: 0644
+  when: ansible_nodename == "bd"
   tags: mariadb
 
-- name: Install network config file
+- name: Install network config file bd two
   template:
-    src: etc_my.cnf.d_network.cnf.j2
+    src: etc_bd2_my.cnf.d_network.cnf.j2
     dest: "{{ mariadb_config_network }}"
-  notify: restart mariadb
+    mode: 0644
+  when: ansible_nodename == "bd2"
   tags: mariadb
+
+- name: restart mariadb
+  service:
+    name: mariadb
+    state: restarted
 
 - name: Configure swappiness
   sysctl:

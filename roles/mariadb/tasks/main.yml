@@ -9,6 +9,7 @@
 
 - include: install.yml
 - include: config.yml
-- include: root-password.yml
+- include: users_replication.yml
+- include: config_replication.yml
 - include: databases.yml
 - include: users.yml

@@ -1,21 +1,23 @@
 # roles/mariadb/tasks/install.yml
 ---
 
-- name: Add official MariaDB repository
-  yum_repository:
-    name: MariaDB
-    description: Official MariaDB repository
-    baseurl: "http://yum.mariadb.org/{{ mariadb_version }}/{{ ansible_distribution|lower|regex_replace('redhat', 'rhel') }}{{ ansible_distribution_major_version }}-amd64"
-    gpgkey: https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
-    gpgcheck: yes
-  tags: mariadb
+#- name: Add official MariaDB repository
+#  yum_repository:
+#    name: MariaDB
+#    description: Official MariaDB repository
+#    baseurl: "http://yum.mariadb.org/{{ mariadb_version }}/{{ ansible_distribution|lower|regex_replace('redhat', 'rhel') }}{{ ansible_distribution_major_version }}-amd64"
+#    gpgkey: https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+#    gpgcheck: yes
+#  #tags: mariadb
 
 - name: Install packages
-  package:
+  yum:
     name: "{{ item }}"
     state: installed
-  with_items: "{{ mariadb_packages }}"
-  tags: mariadb
+  with_items:
+    - mariadb-libs
+    - mariadb-server
+    - MySQL-python
 
 - name: Ensure service is started
   service:

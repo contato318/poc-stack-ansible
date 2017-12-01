@@ -1,2 +1,21 @@
 ---
 # tasks file for aws-route53
+- name: Verifiy Ip Public
+  get_url:
+    url: https://api.ipify.org?format=txt
+    dest: /tmp/HOST_IP_PUBLICO.txt
+    mode: 0440
+  register: ip_public
+
+- name: Validade ip Public
+  debug:
+    var: ip_public
+
+- name: Insert IPS in Route 53
+  route53:
+      state: present
+      zone: gcsb.com.br
+      record: app1poc.gcsb.com.br
+      type: A
+      value: "{{ ip_public }}"
+      wait: yes

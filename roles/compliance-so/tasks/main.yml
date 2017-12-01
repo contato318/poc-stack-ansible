@@ -1,2 +1,6 @@
 ---
 # tasks file for compliance-so
+    
+- selinux:
+    policy: targeted
+    state: permissive

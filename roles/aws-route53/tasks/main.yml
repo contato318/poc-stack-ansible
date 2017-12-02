@@ -22,6 +22,7 @@
       record: db1poc.gcsb.com.br
       type: A
       value: "{{ ip_public_host.stdout }}"
+      overwrite: yes
       wait: yes
   when: host_ansible.stdout == "db1poc"
 
@@ -34,6 +35,7 @@
       record: db2poc.gcsb.com.br
       type: A
       value: "{{ ip_public_host.stdout }}"
+      overwrite: yes
       wait: yes
   when: host_ansible.stdout == "db2poc"
 
@@ -46,5 +48,6 @@
       record: app1poc.gcsb.com.br
       type: A
       value: "{{ ip_public_host.stdout }}"
+      overwrite: yes
       wait: yes
   when: host_ansible.stdout == "app1poc"

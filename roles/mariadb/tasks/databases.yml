@@ -9,7 +9,7 @@
     name: "{{ item.name }}"
     state: present
   with_items: "{{ mariadb_databases }}"
-  when: host_ansible.stdout_lines == "db1poc"
+  when: host_ansible.stdout == "db1poc"
   register: db_creation
 
 - name: Copy database init scripts

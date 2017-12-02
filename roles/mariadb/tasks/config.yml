@@ -9,7 +9,7 @@
     src: etc_bd_my.cnf.d_network.cnf.j2
     dest: "{{ mariadb_config_network }}"
     mode: 0644
-  when: host_ansible.stdout_lines == "db1poc"
+  when: host_ansible.stdout == "db1poc"
   tags: mariadb
 
 - name: Install network config file bd two
@@ -17,7 +17,7 @@
     src: etc_bd2_my.cnf.d_network.cnf.j2
     dest: "{{ mariadb_config_network }}"
     mode: 0644
-  when: host_ansible.stdout_lines == "db2poc"
+  when: host_ansible.stdout == "db2poc"
   tags: mariadb
 
 - name: restart mariadb

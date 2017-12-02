@@ -13,41 +13,14 @@
   shell: cat /root/.stack/cron-bootsrap/bootstrap-cron.conf | grep HOST_ANSIBLE  | cut -d\" -f2
   register: host_ansible
 
-- name: Insert IP db1poc in Route 53
+- name: Update IP in Route 53
   route53:
       aws_access_key: "{{ aws_access_key_route }}"
       aws_secret_key: "{{ aws_secret_key_route }}"
       state: present
-      zone: gcsb.com.br
-      record: db1poc.gcsb.com.br
+      zone: "{{ zone_route }}"
+      record: "{{ host_ansible }}"
       type: A
       value: "{{ ip_public_host.stdout }}"
       overwrite: yes
       wait: yes
-  when: host_ansible.stdout == "db1poc"
-
-- name: Insert IP db2poc in Route 53
-  route53:
-      aws_access_key: "{{ aws_access_key_route }}"
-      aws_secret_key: "{{ aws_secret_key_route }}"
-      state: present
-      zone: gcsb.com.br
-      record: db2poc.gcsb.com.br
-      type: A
-      value: "{{ ip_public_host.stdout }}"
-      overwrite: yes
-      wait: yes
-  when: host_ansible.stdout == "db2poc"
-
-- name: Insert IP app1poc in Route 53
-  route53:
-      aws_access_key: "{{ aws_access_key_route }}"
-      aws_secret_key: "{{ aws_secret_key_route }}"
-      state: present
-      zone: gcsb.com.br
-      record: app1poc.gcsb.com.br
-      type: A
-      value: "{{ ip_public_host.stdout }}"
-      overwrite: yes
-      wait: yes
-  when: host_ansible.stdout == "app1poc"

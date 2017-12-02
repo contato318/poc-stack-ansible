@@ -21,7 +21,7 @@
   mysql_replication:
     mode: startslave
   tags: mariadb
-  when: host_ansible.stdout_lines == "db1poc"" and status_slave.Is_Slave == false
+  when: host_ansible.stdout_lines == "db1poc" and status_slave.Is_Slave == false
 
 - name: Check status slave bd two
   mysql_replication:

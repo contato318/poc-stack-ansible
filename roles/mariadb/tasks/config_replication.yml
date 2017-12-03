@@ -12,7 +12,7 @@
 - name: Alter status slave bd one
   mysql_replication:
     mode: changemaster
-    master_host: db2poc.gcsb.com.br
+    master_host: "db2poc.{{ fqdn_route }}"
     master_user: poc
     master_password: poc
   when: host_ansible.stdout == "db1poc.{{ fqdn_route }}" and status_slave.Is_Slave == false
@@ -32,7 +32,7 @@
 - name: Alter status slave bd two
   mysql_replication:
     mode: changemaster
-    master_host: db1poc.gcsb.com.br
+    master_host: "db1poc.{{ fqdn_route }}"
     master_user: poc
     master_password: poc
   with_items: "{{ mariadb_users_replication }}"

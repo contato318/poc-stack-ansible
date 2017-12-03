@@ -19,7 +19,7 @@
       aws_secret_key: "{{ aws_secret_key_route }}"
       state: present
       zone: "{{ zone_route }}"
-      record: "{{ host_ansible }}"
+      record: "{{ host_ansible.stdout }}"
       type: A
       value: "{{ ip_public_host.stdout }}"
       overwrite: yes

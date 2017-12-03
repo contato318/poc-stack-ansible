@@ -15,6 +15,7 @@
     master_host: "db2poc.{{ fqdn_route }}"
     master_user: poc
     master_password: poc
+    master_connect_retry: 300
   when: host_ansible.stdout == "db1poc.{{ fqdn_route }}" and status_slave.Is_Slave == false
 
 - name: start slave bd one
@@ -35,6 +36,7 @@
     master_host: "db1poc.{{ fqdn_route }}"
     master_user: poc
     master_password: poc
+    master_connect_retry: 300
   with_items: "{{ mariadb_users_replication }}"
   when: host_ansible.stdout == "db2poc.{{ fqdn_route }}" and status_slave_bd2.Is_Slave == false
 

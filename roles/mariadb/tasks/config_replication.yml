@@ -6,7 +6,7 @@
 - name: Check status slave bd one
   mysql_replication:
     mode: getslave
-  when: host_ansible.stdout == "db1poc"
+  when: host_ansible.stdout == "db1poc.{{ fqdn_route }}"
   register: status_slave
 
 - name: Alter status slave bd one
@@ -15,18 +15,18 @@
     master_host: db2poc.gcsb.com.br
     master_user: poc
     master_password: poc
-  when: host_ansible.stdout == "db1poc" and status_slave.Is_Slave == false
+  when: host_ansible.stdout == "db1poc.{{ fqdn_route }}" and status_slave.Is_Slave == false
 
 - name: start slave bd one
   mysql_replication:
     mode: startslave
   tags: mariadb
-  when: host_ansible.stdout == "db1poc" and status_slave.Is_Slave == false
+  when: host_ansible.stdout == "db1poc.{{ fqdn_route }}" and status_slave.Is_Slave == false
 
 - name: Check status slave bd two
   mysql_replication:
     mode: getslave
-  when: host_ansible.stdout == "db2poc"
+  when: host_ansible.stdout == "db2poc.{{ fqdn_route }}"
   register: status_slave_bd2
 
 - name: Alter status slave bd two
@@ -36,9 +36,9 @@
     master_user: poc
     master_password: poc
   with_items: "{{ mariadb_users_replication }}"
-  when: host_ansible.stdout == "db2poc" and status_slave_bd2.Is_Slave == false
+  when: host_ansible.stdout == "db2poc.{{ fqdn_route }}" and status_slave_bd2.Is_Slave == false
 
 - name: start slave bd two
   mysql_replication:
     mode: startslave
-  when: host_ansible.stdout == "db2poc" and status_slave_bd2.Is_Slave == false
+  when: host_ansible.stdout == "db2poc.{{ fqdn_route }}" and status_slave_bd2.Is_Slave == false

@@ -10,5 +10,5 @@
     priv: "{{ item.priv }}"
     state: present
   with_items: "{{ mariadb_users_replication }}"
-  when: host_ansible.stdout == "db1poc"
+  when: host_ansible.stdout == "db1poc.{{ fqdn_route }}"
   tags: mariadb

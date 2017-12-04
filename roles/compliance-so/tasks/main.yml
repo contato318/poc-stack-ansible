@@ -11,3 +11,4 @@
     name: firewalld
     state: stopped
     enabled: False
+  when: ansible_bios_version != "4.2.amazon"

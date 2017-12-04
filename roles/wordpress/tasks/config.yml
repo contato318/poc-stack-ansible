@@ -58,7 +58,7 @@
 
 - name: Wordpress config file app two
   template:
-    src: wp-config.php.j2
+    src: wp-config_2.php.j2
     dest: "{{ wordpress_configuration }}"
     owner: root
     group: apache

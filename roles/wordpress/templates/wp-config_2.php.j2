@@ -33,18 +33,6 @@ define('DB_CHARSET', 'utf8');
 /** The Database Collate type. Don't change this if in doubt. */
 define('DB_COLLATE', '');
 
-define('MULTISITE', true);
-
-define('SUBDOMAIN_INSTALL', false);
-
-define('DOMAIN_CURRENT_SITE', 'apppoc.gcsb.com.br');
-
-define('PATH_CURRENT_SITE', '/wordpress/');
-
-define('SITE_ID_CURRENT_SITE', 1);
-
-define('BLOG_ID_CURRENT_SITE', 1);
-
 /**#@+
  * Authentication Unique Keys and Salts.
  *
@@ -64,7 +52,6 @@ include ( ABSPATH . 'wp-salts.php' );
  * You can have multiple installations in one database if you give each a unique
  * prefix. Only numbers, letters, and underscores please!
  */
-$table_prefix  = 'wp_';
 
 /**
  * See http://make.wordpress.org/core/2013/10/25/the-definitive-guide-to-disabling-auto-updates-in-wordpress-3-7

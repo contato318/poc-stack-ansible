@@ -1,50 +1,46 @@
+---
+- name: Verifiy Host Ansible
+  shell: cat /root/.stack/cron-bootsrap/bootstrap-cron.conf | grep HOST_ANSIBLE  | cut -d\" -f2
+  register: host_ansible
+
 - name: Check status slave bd one
   mysql_replication:
     mode: getslave
-    #login_user: root
-    #login_password: "{{ mariadb_root_password }}"
-  when: ansible_nodename == "bd"
+  when: host_ansible.stdout == "db1poc.{{ fqdn_route }}"
   register: status_slave
 
 - name: Alter status slave bd one
   mysql_replication:
     mode: changemaster
-    #login_user: root
-    #login_password: "{{ mariadb_root_password }}"
-    master_host: 192.168.56.106
+    master_host: "db2poc.{{ fqdn_route }}"
     master_user: poc
     master_password: poc
-  when: ansible_nodename == "bd" and status_slave.Is_Slave == false
+    master_connect_retry: 300
+  when: host_ansible.stdout == "db1poc.{{ fqdn_route }}" and status_slave.Is_Slave == false
 
 - name: start slave bd one
   mysql_replication:
     mode: startslave
-    #login_user: root
-    #login_password: "{{ mariadb_root_password }}"
   tags: mariadb
-  when: ansible_nodename == "bd" and status_slave.Is_Slave == false
+  when: host_ansible.stdout == "db1poc.{{ fqdn_route }}" and status_slave.Is_Slave == false
+
 - name: Check status slave bd two
   mysql_replication:
     mode: getslave
-    #login_user: root
-    #login_password: "{{ mariadb_root_password }}"
-  when: ansible_nodename == "bd2"
+  when: host_ansible.stdout == "db2poc.{{ fqdn_route }}"
   register: status_slave_bd2
 
 - name: Alter status slave bd two
   mysql_replication:
     mode: changemaster
-    #login_user: root
-    #login_password: "{{ mariadb_root_password }}"
-    master_host: 192.168.56.105
+    master_host: "db1poc.{{ fqdn_route }}"
     master_user: poc
     master_password: poc
+    master_connect_retry: 300
   with_items: "{{ mariadb_users_replication }}"
-  when: ansible_nodename == "bd2" and status_slave_bd2.Is_Slave == false
+  when: host_ansible.stdout == "db2poc.{{ fqdn_route }}" and status_slave_bd2.Is_Slave == false
 
 - name: start slave bd two
   mysql_replication:
     mode: startslave
-    #login_user: root
-    #login_password: "{{ mariadb_root_password }}"
-  when: ansible_nodename == "bd2" and status_slave_bd2.Is_Slave == false
+  when: host_ansible.stdout == "db2poc.{{ fqdn_route }}" and status_slave_bd2.Is_Slave == false

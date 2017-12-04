@@ -33,17 +33,9 @@ define('DB_CHARSET', 'utf8');
 /** The Database Collate type. Don't change this if in doubt. */
 define('DB_COLLATE', '');
 
-define('MULTISITE', true);
+define('WP_HOME', '{{ wordpress_url }}');
 
-define('SUBDOMAIN_INSTALL', false);
-
-define('DOMAIN_CURRENT_SITE', '192.168.56.103');
-
-define('PATH_CURRENT_SITE', '/wordpress/');
-
-define('SITE_ID_CURRENT_SITE', 1);
-
-define('BLOG_ID_CURRENT_SITE', 1);
+define('WP_SITEURL', '{{ wordpress_url }}');
 
 /**#@+
  * Authentication Unique Keys and Salts.
@@ -64,6 +56,7 @@ include ( ABSPATH . 'wp-salts.php' );
  * You can have multiple installations in one database if you give each a unique
  * prefix. Only numbers, letters, and underscores please!
  */
+
 $table_prefix  = 'wp_';
 
 /**

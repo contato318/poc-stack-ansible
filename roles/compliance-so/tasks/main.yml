@@ -1,6 +1,13 @@
 ---
 # tasks file for compliance-so
-    
-- selinux:
+
+- name: Selinux permisseve
+  selinux:
     policy: targeted
     state: permissive
+
+- name: Stop and disable firewalld.
+  service:
+    name: firewalld
+    state: stopped
+    enabled: False

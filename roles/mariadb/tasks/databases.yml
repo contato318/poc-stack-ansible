@@ -1,25 +1,16 @@
 # roles/mariadb/tasks/databases.yml
 ---
-
-#- name: Remove the test database
-#  mysql_db:
-#    name: test
-#    #login_user: root
-#    #login_password: "{{ mariadb_root_password }}"
-#    state: absent
-#  tags: mariadb
+- name: Verifiy Host Ansible
+  shell: cat /root/.stack/cron-bootsrap/bootstrap-cron.conf | grep HOST_ANSIBLE  | cut -d\" -f2
+  register: host_ansible
 
 - name: Create user defined databases
   mysql_db:
     name: "{{ item.name }}"
-    #login_user: root
-    #login_password: "{{ mariadb_root_password }}"
     state: present
   with_items: "{{ mariadb_databases }}"
-  when: ansible_nodename == "bd"
+  when: host_ansible.stdout == "db1poc.{{ fqdn_route }}"
   register: db_creation
-  #tags: mariadb
-
 
 - name: Copy database init scripts
   copy:
@@ -28,18 +19,14 @@
     mode: '0600'
   with_items: "{{ db_creation.results }}"
   when: item.changed and item.item.init_script is defined
-#tags: mariadb
 
 - name: Initialise databases
   mysql_db:
     name: "{{ item.item.name }}"
     state: import
     target: "/tmp/{{ item.item.init_script|basename }}"
-    #login_user: root
-    #login_password: "{{ mariadb_root_password }}"
   with_items: "{{ db_creation.results }}"
   when: item.changed and item.item.init_script is defined
-  #tags: mariadb
 
 - name: Delete init scripts from the server
   file:
@@ -47,4 +34,3 @@
     state: absent
   with_items: "{{ db_creation.results }}"
   when: item.changed and item.item.init_script is defined
-#tags: mariadb

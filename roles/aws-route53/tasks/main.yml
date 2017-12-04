@@ -1,21 +1,26 @@
 ---
-# tasks file for aws-route53
 - name: Verifiy Ip Public
   get_url:
     url: https://api.ipify.org?format=txt
     dest: /tmp/HOST_IP_PUBLICO.txt
     mode: 0440
-  register: ip_public
 
 - name: Validade ip Public
-  debug:
-    var: ip_public
+  shell: cat /tmp/HOST_IP_PUBLICO.txt
+  register: ip_public_host
 
-- name: Insert IPS in Route 53
+- name: Verifiy Host Ansible
+  shell: cat /root/.stack/cron-bootsrap/bootstrap-cron.conf | grep HOST_ANSIBLE  | cut -d\" -f2
+  register: host_ansible
+
+- name: Update IP in Route 53
   route53:
+      aws_access_key: "{{ aws_access_key_route }}"
+      aws_secret_key: "{{ aws_secret_key_route }}"
       state: present
-      zone: gcsb.com.br
-      record: app1poc.gcsb.com.br
+      zone: "{{ zone_route }}"
+      record: "{{ host_ansible.stdout }}"
       type: A
-      value: "{{ ip_public }}"
+      value: "{{ ip_public_host.stdout }}"
+      overwrite: yes
       wait: yes

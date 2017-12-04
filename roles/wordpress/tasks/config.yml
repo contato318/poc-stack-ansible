@@ -1,6 +1,10 @@
 # Configures Wordpress
 ---
 
+- name: Verifiy Host Ansible
+  shell: cat /root/.stack/cron-bootsrap/bootstrap-cron.conf | grep HOST_ANSIBLE  | cut -d\" -f2
+  register: host_ansible
+
 - name: Apache config file for Wordpress
   template:
     src: wordpress.conf.j2
@@ -50,11 +54,11 @@
     setype: etc_t
   notify: restart httpd
   tags: wordpress
-  when: ansible_nodename == "app1"
+  when: host_ansible.stdout == "app1poc.{{ fqdn_route }}"
 
 - name: Wordpress config file app two
   template:
-    src: wp-config.php.j2
+    src: wp-config_2.php.j2
     dest: "{{ wordpress_configuration }}"
     owner: root
     group: apache
@@ -62,8 +66,7 @@
     setype: etc_t
   notify: restart httpd
   tags: wordpress
-  when: ansible_nodename == "app2"
-
+  when: host_ansible.stdout != "app1poc.{{ fqdn_route }}"
 
 - name: Allow Apache to access database over the network if necessary
   seboolean:

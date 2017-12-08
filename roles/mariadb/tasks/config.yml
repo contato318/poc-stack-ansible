@@ -26,13 +26,8 @@
   service:
     name: mariadb
     state: restarted
-  when: "{{ config_file_bd_one.changed }}" == "true"
+  when: "{{ config_file_bd_one }}" == "true"
 
-- name: restart mariadb db two
-  service:
-    name: mariadb
-    state: restarted
-  when: "{{ config_file_bd_one.changed }}" == "true"
 
 - name: Configure swappiness
   sysctl:

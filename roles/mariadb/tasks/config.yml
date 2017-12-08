@@ -11,7 +11,7 @@
     mode: 0644
   when: host_ansible.stdout == "db1poc.{{ fqdn_route }}"
   tags: mariadb
-  register: config_file_bd
+  register: config_file_bd_one
 
 - name: Install network config file bd two
   template:
@@ -20,11 +20,11 @@
     mode: 0644
   when: host_ansible.stdout == "db2poc.{{ fqdn_route }}"
   tags: mariadb
-  register: config_file_bd
+  register: config_file_bd_two
 
 - name: validar debug bd
   debug:
-    var: config_file_bd
+    var: config_file_bd_one
 
 - name: restart mariadb db
   service:

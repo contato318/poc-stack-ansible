@@ -24,7 +24,7 @@
 
 - name: debug banco
   debug:
-    var: result
+    var: config_file_bd_one
 
 - name: restart mariadb db one
   service:

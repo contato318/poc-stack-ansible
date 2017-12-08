@@ -1,4 +1,3 @@
-# roles/mariadb/tasks/config.yml
 ---
 - name: Verifiy Host Ansible
   shell: cat /root/.stack/cron-bootsrap/bootstrap-cron.conf | grep HOST_ANSIBLE  | cut -d\" -f2
@@ -10,8 +9,8 @@
     dest: "{{ mariadb_config_network }}"
     mode: 0644
   when: host_ansible.stdout == "db1poc.{{ fqdn_route }}"
-  register: config_file_bd_one
   tags: mariadb
+  register: result_file_one
 
 - name: Install network config file bd two
   template:
@@ -19,14 +18,20 @@
     dest: "{{ mariadb_config_network }}"
     mode: 0644
   when: host_ansible.stdout == "db2poc.{{ fqdn_route }}"
-  register: config_file_bd_two
   tags: mariadb
+  register: result_file_two
 
 - name: restart mariadb db one
   service:
     name: mariadb
     state: restarted
-  when: config_file_bd_one.changed == "true"
+  when: result_file_one.changed == true and host_ansible.stdout == "db1poc.{{ fqdn_route }}"
+
+- name: restart mariadb db one
+  service:
+    name: mariadb
+    state: restarted
+  when: result_file_two.changed == true and host_ansible.stdout == "db2poc.{{ fqdn_route }}"
 
 - name: Configure swappiness
   sysctl:

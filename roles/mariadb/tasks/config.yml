@@ -22,6 +22,10 @@
   tags: mariadb
   register: config_file_bd
 
+- name: validar debug bd
+  debug:
+    var: config_file_bd
+
 - name: restart mariadb db
   service:
     name: mariadb

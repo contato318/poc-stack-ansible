@@ -20,14 +20,17 @@
     mode: 0644
   when: host_ansible.stdout == "db2poc.{{ fqdn_route }}"
   tags: mariadb
-  register: config_file_bd_two
+  register: config_file_bd_one
+
+- name: debug banco
+  debug:
+    var: result
 
 - name: restart mariadb db one
   service:
     name: mariadb
     state: restarted
-  when: "{{ config_file_bd_one }}" == "true"
-
+  when: config_file_bd_one|false
 
 - name: Configure swappiness
   sysctl:

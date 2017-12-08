@@ -20,7 +20,7 @@
     mode: 0644
   when: host_ansible.stdout == "db2poc.{{ fqdn_route }}"
   tags: mariadb
-  register: config_file_bd_one
+  register: config_file_bd_two
 
 - name: debug banco
   debug:

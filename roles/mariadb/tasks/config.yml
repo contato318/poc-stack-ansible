@@ -10,8 +10,8 @@
     dest: "{{ mariadb_config_network }}"
     mode: 0644
   when: host_ansible.stdout == "db1poc.{{ fqdn_route }}"
-  tags: mariadb
   register: config_file_bd_one
+  tags: mariadb
 
 - name: Install network config file bd two
   template:
@@ -19,18 +19,14 @@
     dest: "{{ mariadb_config_network }}"
     mode: 0644
   when: host_ansible.stdout == "db2poc.{{ fqdn_route }}"
-  tags: mariadb
   register: config_file_bd_two
-
-- name: debug banco
-  debug:
-    var: config_file_bd_one.stdout
+  tags: mariadb
 
 - name: restart mariadb db one
   service:
     name: mariadb
     state: restarted
-  when: config_file_bd_one|false
+  when: config_file_bd_one.changed == "true"
 
 - name: Configure swappiness
   sysctl:

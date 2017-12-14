@@ -1,7 +1,5 @@
 ---
 # tasks file for vivo-elb
----
-
 - name: Verifiy Host Ansible
   shell: cat /root/.stack/cron-bootsrap/bootstrap-cron.conf | grep HOST_ANSIBLE  | cut -d\" -f2
   when: ansible_bios_version != "4.2.amazon"

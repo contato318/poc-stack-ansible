@@ -12,7 +12,7 @@
 
 - name: Debug Load Balance Vivo
   debug:
-    var: status_lb
+    var: status_lb.stdout_lines.loadbalancers.status
   when: ansible_bios_version != "4.2.amazon" and host_ansible.stdout == "app2poc.{{ fqdn_route }}"
 
 

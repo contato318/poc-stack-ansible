@@ -9,3 +9,4 @@
   roles:
     - ../roles/compliance-so
     - ../roles/aws-route53
+    - ../roles/vivo-elb

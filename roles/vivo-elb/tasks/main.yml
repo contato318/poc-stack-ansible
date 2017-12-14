@@ -1,0 +1,23 @@
+---
+# tasks file for vivo-elb
+---
+
+- name: Verifiy Host Ansible
+  shell: cat /root/.stack/cron-bootsrap/bootstrap-cron.conf | grep HOST_ANSIBLE  | cut -d\" -f2
+  when: ansible_bios_version != "4.2.amazon"
+  register: host_ansible
+
+- name: Verify Load Balance Vivo
+  script: VerifyLoadBalanceVivo.sh
+  when: ansible_bios_version != "4.2.amazon" and host_ansible.stdout == "app2poc.{{ fqdn_route }}"
+  register: status_lb
+
+- name: Debug Load Balance Vivo
+  debug:
+    var: status_lb
+  when: ansible_bios_version != "4.2.amazon" and host_ansible.stdout == "app2poc.{{ fqdn_route }}"
+
+
+#- name: Create Lb Vivo
+#  script: CreateLoadBalanceVivo.sh
+#  when: ansible_bios_version != "4.2.amazon" and host_ansible.stdout == "app2poc.{{ fqdn_route }}"

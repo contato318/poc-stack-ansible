@@ -10,11 +10,6 @@
   when: ansible_bios_version != "4.2.amazon" and host_ansible.stdout == "app2poc.{{ fqdn_route }}"
   register: status_lb
 
-- name: Debug Load Balance Vivo
-  debug:
-    var: status_lb.stdout_lines
-  when: ansible_bios_version != "4.2.amazon" and host_ansible.stdout == "app2poc.{{ fqdn_route }}"
-
-#- name: Create Lb Vivo
-#  script: CreateLoadBalanceVivo.sh
-#  when: ansible_bios_version != "4.2.amazon" and host_ansible.stdout == "app2poc.{{ fqdn_route }}"
+- name: Create Lb Vivo
+  script: CreateLoadBalanceVivo.sh
+  when: ansible_bios_version != "4.2.amazon" and host_ansible.stdout == "app2poc.{{ fqdn_route }}" and status_lb.stdout == "0"

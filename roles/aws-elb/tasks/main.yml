@@ -15,7 +15,7 @@
   with_items:
       - app03
       - app04
-  when: ansible_bios_version == "4.2.amazon" and host_ansible.stdout == "app4poc.{{ fqdn_route }}"
+  when: host_ansible.stdout == "app4poc.{{ fqdn_route }}"
   register: var_instances_id
 
 - name: Create lb aws
@@ -47,14 +47,14 @@
   with_items:
       - 0
       - 1
-  when: ansible_bios_version == "4.2.amazon" and host_ansible.stdout == "app4poc.{{ fqdn_route }}"
+  when: host_ansible.stdout == "app4poc.{{ fqdn_route }}"
 
 - name: Get Facts lb
   ec2_elb_facts:
     aws_access_key: "{{ aws_access_key_lb }}"
     aws_secret_key: "{{ aws_secret_key_lb }}"
     region: sa-east-1
-  when: ansible_bios_version == "4.2.amazon"
+  when: host_ansible.stdout == "app4poc.{{ fqdn_route }}"
   register: lb_dns
 
 - name: Update IP in Route 53
@@ -68,4 +68,4 @@
       value: "{{ lb_dns.elbs[0].dns_name }}"
       overwrite: yes
       wait: yes
-  when: ansible_bios_version == "4.2.amazon" and host_ansible.stdout == "app4poc.{{ fqdn_route }}"
+  when: host_ansible.stdout == "app4poc.{{ fqdn_route }}"

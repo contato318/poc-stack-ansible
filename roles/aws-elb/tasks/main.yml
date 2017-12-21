@@ -3,7 +3,6 @@
 
 - name: Verifiy Host Ansible
   shell: cat /root/.stack/cron-bootsrap/bootstrap-cron.conf | grep HOST_ANSIBLE  | cut -d\" -f2
-  when: ansible_bios_version == "4.2.amazon"
   register: host_ansible
 
 - name: Gather facts
@@ -12,10 +11,10 @@
     aws_secret_key: "{{ aws_secret_key_lb }}"
     region: sa-east-1
     filters:
-      "tag:name": "{{ item }}"
+      "tag:Name": "{{ item }}"
   with_items:
-      - app3poc
-      - app4poc
+      - app3
+      - app4
   when: ansible_bios_version == "4.2.amazon" and host_ansible.stdout == "app4poc.{{ fqdn_route }}"
   register: var_instances_id
 

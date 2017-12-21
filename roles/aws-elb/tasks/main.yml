@@ -13,8 +13,8 @@
     filters:
       "tag:Name": "{{ item }}"
   with_items:
-      - app3
-      - app4
+      - app03
+      - app04
   when: ansible_bios_version == "4.2.amazon" and host_ansible.stdout == "app4poc.{{ fqdn_route }}"
   register: var_instances_id
 

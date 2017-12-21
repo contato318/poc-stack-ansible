@@ -1,2 +1,72 @@
 ---
 # tasks file for aws-elb
+
+- name: Verifiy Host Ansible
+  shell: cat /root/.stack/cron-bootsrap/bootstrap-cron.conf | grep HOST_ANSIBLE  | cut -d\" -f2
+  when: ansible_bios_version == "4.2.amazon"
+  register: host_ansible
+
+- name: Gather facts
+  ec2_remote_facts:
+    aws_access_key: "{{ aws_access_key_lb }}"
+    aws_secret_key: "{{ aws_secret_key_lb }}"
+    region: sa-east-1
+    filters:
+      "tag:name": "{{ item }}"
+  with_items:
+      - app3poc
+      - app4poc
+  when: ansible_bios_version == "4.2.amazon" and host_ansible.stdout == "app4poc.{{ fqdn_route }}"
+  register: var_instances_id
+
+- name: Create lb aws
+  ec2_elb_lb:
+    aws_access_key: "{{ aws_access_key_lb }}"
+    aws_secret_key: "{{ aws_secret_key_lb }}"
+    name: "app-lb"
+    scheme: internet-facing
+    state: present
+    region: sa-east-1
+    instance_ids:
+      - "{{ var_instances_id.results[item].instances[0].id }}"
+    zones:
+      - sa-east-1c
+      - sa-east-1a
+    listeners:
+      - protocol: tcp
+        load_balancer_port: 80
+        instance_port: 80
+    health_check:
+        ping_protocol: tcp
+        ping_port: 80
+        ping_path: "/"
+        response_timeout: 5
+        interval: 10
+        unhealthy_threshold: 2
+        healthy_threshold: 2
+    wait: yes
+  with_items:
+      - 0
+      - 1
+  when: ansible_bios_version == "4.2.amazon" and host_ansible.stdout == "app4poc.{{ fqdn_route }}"
+
+- name: Get Facts lb
+  ec2_elb_facts:
+    aws_access_key: "{{ aws_access_key_lb }}"
+    aws_secret_key: "{{ aws_secret_key_lb }}"
+    region: sa-east-1
+  when: ansible_bios_version == "4.2.amazon"
+  register: lb_dns
+
+- name: Update IP in Route 53
+  route53:
+      aws_access_key: "{{ aws_access_key_route }}"
+      aws_secret_key: "{{ aws_secret_key_route }}"
+      state: present
+      zone: "{{ zone_route }}"
+      record: "appvipaws.{{ fqdn_route }}"
+      type: CNAME
+      value: "{{ lb_dns.elbs[0].dns_name }}"
+      overwrite: yes
+      wait: yes
+  when: ansible_bios_version == "4.2.amazon" and host_ansible.stdout == "app4poc.{{ fqdn_route }}"

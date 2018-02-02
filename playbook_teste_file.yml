@@ -1,5 +1,5 @@
-- hosts: localhost
-  connection: local
+- name: Criando arquivo
+  hosts: all
 
   tasks:
   - name: Install network config file bd two

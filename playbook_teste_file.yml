@@ -1,0 +1,9 @@
+- hosts: localhost
+  connection: local
+
+  tasks:
+  - name: Install network config file bd two
+    template:
+      src: temp_file.j2
+      dest: /home/teste.txt
+      mode: 0644
